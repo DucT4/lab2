@@ -7,7 +7,8 @@ package views;
 /**
  *
  * @author Admin
- */
+ */ 
+import views.Ramviewer;
 public class main {
     public static void main(String[] args) {
         Ramviewer ramviewer = new Ramviewer();

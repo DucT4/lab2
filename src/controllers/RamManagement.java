@@ -222,9 +222,46 @@ public class RamManagement implements IItem<Ram> {
         try {
             FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ramList = (List<Ram>) objectInputStream.readObject();
+            List<Ram> loadedRams = (List<Ram>) objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
+
+            // Clear existing ramList and add loaded RAMs
+            ramList.clear();
+            // Giải thích cách lấy dữ liệu từ file binary:
+            
+            // 1. Đọc file binary:
+            // FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
+            // Dòng này mở file binary để đọc.
+
+            // 2. Chuyển đổi dữ liệu binary thành đối tượng Java:
+            // ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            // ObjectInputStream giúp chuyển đổi dữ liệu binary thành đối tượng Java.
+
+            // 3. Đọc và ép kiểu dữ liệu:
+            // List<Ram> loadedRams = (List<Ram>) objectInputStream.readObject();
+            // Dòng này đọc dữ liệu từ file, chuyển đổi thành List<Ram>.
+
+            // 4. Thêm dữ liệu vào ramList:
+            for (Ram ram : loadedRams) {
+                // Tạo đối tượng Ram mới từ dữ liệu đã đọc
+                Ram newRam = new Ram(
+                    ram.getCode(),
+                    ram.getType(),
+                    ram.getBus(),
+                    ram.getBrand(),
+                    ram.getQuantity(),
+                    ram.getProductionMonthYear(),
+                    ram.isActive()
+                );
+                // Thêm đối tượng Ram mới vào ramList
+                ramList.add(newRam);
+                System.out.println("da doc");
+            }
+
+            // Quá trình này cho phép đọc dữ liệu từ file binary
+            // và khôi phục lại các đối tượng Ram trong chương trình.
+
             return true;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
